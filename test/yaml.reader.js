@@ -90,4 +90,112 @@ describe('yaml.reader', function() {
 
 	});
 
+	describe('#normalizeDoc()', function() {
+
+		it('should properly normalize collection type objects', function(done) {
+			var r = reader.instance();
+			r.readFile(path.join(__dirname, 'schemas/schema-single.yml'), function(err, doc) {
+				var filtered = r.filterDoc(doc);
+				var normalized = r.normalizeDoc(filtered);
+				expect(normalized).to.be.deep.equal({
+					collections: {
+						User: {
+							fields: {
+								id: {
+									type: "INT",
+									autoIncrement: true,
+									hidden: false,
+									optional: false,
+									primary: true,
+									readOnly: true,
+									service: false
+								},
+								email: {
+									type: 'STRING',
+									primary: false,
+									autoIncrement: false,
+									optional: false,
+									readOnly: false,
+									hidden: false,
+									service: false
+								},
+								password: {
+									type: 'STRING',
+									length: 50,
+									primary: false,
+									autoIncrement: false,
+									optional: false,
+									readOnly: false,
+									hidden: false,
+									service: false
+								},
+								birthdate: {
+									type: 'DATE',
+									primary: false,
+									autoIncrement: false,
+									optional: false,
+									readOnly: false,
+									hidden: false,
+									service: false
+								},
+								active: {
+									type: 'BOOL',
+									primary: false,
+									autoIncrement: false,
+									optional: false,
+									readOnly: false,
+									hidden: false,
+									service: false
+								},
+								firstName: {
+									type: 'STRING',
+									primary: false,
+									autoIncrement: false,
+									optional: false,
+									readOnly: false,
+									hidden: false,
+									service: false
+								},
+								lastName: {
+									type: 'STRING',
+									primary: false,
+									autoIncrement: false,
+									optional: false,
+									readOnly: false,
+									hidden: false,
+									service: false
+								},
+								bio: {
+									type: 'TEXT',
+									primary: false,
+									autoIncrement: false,
+									optional: true,
+									readOnly: false,
+									hidden: false,
+									service: false
+								},
+								balance: {
+									type: 'DOUBLE',
+									primary: false,
+									autoIncrement: false,
+									optional: false,
+									readOnly: false,
+									hidden: false,
+									service: false
+								}
+							},
+							options: {
+								timestamps: true,
+								collectionName: 'User'
+							},
+							primaryKey: 'id'
+						}
+					}
+				});
+				done();
+			});
+		});
+
+	});
+
 });
