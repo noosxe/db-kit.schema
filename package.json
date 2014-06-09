@@ -1,0 +1,23 @@
+{
+	"name": "db-kit.schema",
+	"version": "0.1.0",
+	"description": "db-kit ORM schema generator",
+	"main": "index.js",
+	"dependencies": {
+		"js-yaml": "3.0.2",
+		"lodash": "2.4.1"
+	},
+	"devDependencies": {
+		"mocha": "1.20.x",
+		"chai": "1.9.x"
+	},
+	"scripts": {
+		"test": "mocha -R spec"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/noosxe/db-kit.schema.git"
+	},
+	"author": "Levon Kirakosyan <noosx.e@gmail.com> (http://noosxe.com)",
+	"license": "MIT"
+}
