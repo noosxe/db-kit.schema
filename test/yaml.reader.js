@@ -185,7 +185,8 @@ describe('yaml.reader', function() {
 					UserProject: {
 						manyToMany: true,
 						from: 'User',
-						to: 'Project'
+						to: 'Project',
+						tableName: 'user_project'
 					}
 				});
 				done();
@@ -546,7 +547,8 @@ describe('yaml.reader', function() {
 					UserProject: {
 						manyToMany: true,
 						from: normalized.collections.User,
-						to: normalized.collections.Project
+						to: normalized.collections.Project,
+						tableName: 'user_project'
 					}
 				});
 				done();
