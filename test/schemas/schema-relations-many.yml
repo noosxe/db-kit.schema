@@ -1,0 +1,32 @@
+User:
+  type: collection
+  fields:
+    email: string
+    password:
+      type: string
+      length: 50
+    birthdate: date
+    active: bool
+    firstName: string
+    lastName: string
+    bio:
+      type: text
+      optional: true
+    balance: double
+  options:
+    timestamps: true
+
+Project:
+  type: collection
+  fields:
+    name: string
+    importance: int
+    complete: double
+  options:
+    timestamps: true
+
+UserProject:
+  type: connection
+  manyToMany: true
+  from: User
+  to: Project

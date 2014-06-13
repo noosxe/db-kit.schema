@@ -177,6 +177,21 @@ describe('yaml.reader', function() {
 			});
 		});
 
+		it('should split connection type objects', function(done) {
+			var r = reader.instance();
+			r.readFile(path.join(__dirname, 'schemas/schema-relations-many.yml'), function(err, doc) {
+				var filtered = r.filterDoc(doc);
+				expect(filtered.connections).to.be.deep.equal({
+					UserProject: {
+						manyToMany: true,
+						from: 'User',
+						to: 'Project'
+					}
+				});
+				done();
+			});
+		});
+
 	});
 
 	describe('#normalizeDoc()', function() {
@@ -522,6 +537,21 @@ describe('yaml.reader', function() {
 			});
 		});
 
+		it('should properly normalize connection type objects', function(done) {
+			var r = reader.instance();
+			r.readFile(path.join(__dirname, 'schemas/schema-relations-many.yml'), function(err, doc) {
+				var filtered = r.filterDoc(doc);
+				var normalized = r.normalizeDoc(filtered);
+				expect(normalized.connections).to.be.deep.equal({
+					UserProject: {
+						manyToMany: true,
+						from: normalized.collections.User,
+						to: normalized.collections.Project
+					}
+				});
+				done();
+			});
+		});
 	});
 
 });
