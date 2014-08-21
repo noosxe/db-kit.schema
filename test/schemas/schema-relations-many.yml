@@ -27,7 +27,7 @@ Project:
 
 UserProject:
   type: connection
-  manyToMany: true
-  from: User
-  to: Project
-  tableName: user_project
+  parent: $User
+  child: $Project
+  accessor: projects
+  tableName: link_user_projects

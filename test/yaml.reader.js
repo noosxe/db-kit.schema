@@ -31,83 +31,9 @@ describe('yaml.reader', function () {
 
 		it('should return proper js object', function () {
 			return expect(reader.instance().readFile(path.join(__dirname, 'schemas/schema-single.yml')))
-				.to.eventually.be.deep.equal({
-					User: {
-						type: 'collection',
-						fields: {
-							email: 'string',
-							password: {
-								type: 'string',
-								length: 50
-							},
-							birthdate: 'date',
-							active: 'bool',
-							firstName: 'string',
-							lastName: 'string',
-							bio: {
-								type: 'text',
-								optional: true
-							},
-							balance: 'double'
-						},
-						options: {
-							timestamps: true
-						}
-					}
-				});
-		});
-
-		it('should return proper js object for multi definition files', function () {
-			return expect(reader.instance().readFile(path.join(__dirname, 'schemas/schema-relations.yml')))
-				.to.eventually.be.deep.equal({
-					User: {
-						type: 'collection',
-						fields: {
-							email: 'string',
-							password: {
-								type: 'string',
-								length: 50
-							},
-							birthdate: 'date',
-							active: 'bool',
-							firstName: 'string',
-							lastName: 'string',
-							bio: {
-								type: 'text',
-								optional: true
-							},
-							balance: 'double',
-							schedule: '$Schedule'
-						},
-						options: {
-							timestamps: true
-						}
-					},
-					Schedule: {
-						type: 'collection',
-						fields: {
-							type: 'string',
-							startDate: 'date',
-							endDate: 'date',
-							repeated: 'bool'
-						},
-						options: {
-							timestamps: true
-						}
-					}
-				});
-		});
-	});
-
-	describe('#filterDoc()', function () {
-
-		it('should split collection type objects from doc', function () {
-			var p = path.join(__dirname, 'schemas/schema-single.yml');
-			var r = reader.instance();
-			return expect(r.readFile(p).then(r.filterDoc))
-				.to.eventually.be.deep.equal({
-					collections: {
+					.to.eventually.be.deep.equal({
 						User: {
+							type: 'collection',
 							fields: {
 								email: 'string',
 								password: {
@@ -124,20 +50,18 @@ describe('yaml.reader', function () {
 								},
 								balance: 'double'
 							},
-							options: { timestamps: true }
+							options: {
+								timestamps: true
+							}
 						}
-					}
-				});
+					});
 		});
 
-		it('should split multiple collection type objects from doc', function () {
-			var p = path.join(__dirname, 'schemas/schema-relations.yml');
-			var r = reader.instance();
-
-			return expect(r.readFile(p).then(r.filterDoc))
-				.to.eventually.be.deep.equal({
-					collections: {
+		it('should return proper js object for multi definition files', function () {
+			return expect(reader.instance().readFile(path.join(__dirname, 'schemas/schema-relations.yml')))
+					.to.eventually.be.deep.equal({
 						User: {
+							type: 'collection',
 							fields: {
 								email: 'string',
 								password: {
@@ -160,6 +84,7 @@ describe('yaml.reader', function () {
 							}
 						},
 						Schedule: {
+							type: 'collection',
 							fields: {
 								type: 'string',
 								startDate: 'date',
@@ -170,8 +95,83 @@ describe('yaml.reader', function () {
 								timestamps: true
 							}
 						}
-					}
-				});
+					});
+		});
+	});
+
+	describe('#filterDoc()', function () {
+
+		it('should split collection type objects from doc', function () {
+			var p = path.join(__dirname, 'schemas/schema-single.yml');
+			var r = reader.instance();
+			return expect(r.readFile(p).then(r.filterDoc))
+					.to.eventually.be.deep.equal({
+						collections: {
+							User: {
+								fields: {
+									email: 'string',
+									password: {
+										type: 'string',
+										length: 50
+									},
+									birthdate: 'date',
+									active: 'bool',
+									firstName: 'string',
+									lastName: 'string',
+									bio: {
+										type: 'text',
+										optional: true
+									},
+									balance: 'double'
+								},
+								options: { timestamps: true }
+							}
+						}
+					});
+		});
+
+		it('should split multiple collection type objects from doc', function () {
+			var p = path.join(__dirname, 'schemas/schema-relations.yml');
+			var r = reader.instance();
+
+			return expect(r.readFile(p).then(r.filterDoc))
+					.to.eventually.be.deep.equal({
+						collections: {
+							User: {
+								fields: {
+									email: 'string',
+									password: {
+										type: 'string',
+										length: 50
+									},
+									birthdate: 'date',
+									active: 'bool',
+									firstName: 'string',
+									lastName: 'string',
+									bio: {
+										type: 'text',
+										optional: true
+									},
+									balance: 'double',
+									schedule: '$Schedule'
+								},
+								options: {
+									timestamps: true
+								}
+							},
+							Schedule: {
+								fields: {
+									type: 'string',
+									startDate: 'date',
+									endDate: 'date',
+									repeated: 'bool'
+								},
+								options: {
+									timestamps: true
+								}
+							}
+						}
+					});
 		});
 
 		it('should split connection type objects', function () {
@@ -180,14 +180,14 @@ describe('yaml.reader', function () {
 			return expect(r.readFile(p).then(r.filterDoc).then(function (doc) {
 				return doc.connections;
 			}))
-				.to.eventually.deep.equal({
-					UserProject: {
-						manyToMany: true,
-						from: 'User',
-						to: 'Project',
-						tableName: 'user_project'
-					}
-				});
+					.to.eventually.deep.equal({
+						UserProject: {
+							parent: '$User',
+							child: '$Project',
+							accessor: 'projects',
+							tableName: 'link_user_projects'
+						}
+					});
 		});
 
 	});
@@ -199,121 +199,155 @@ describe('yaml.reader', function () {
 			var r = reader.instance();
 
 			return expect(r.readFile(p).then(r.filterDoc).then(r.normalizeDoc))
-				.to.eventually.be.deep.equal({
-					collections: {
-						User: {
-							fields: {
-								id: {
-									type: "INT",
-									autoIncrement: true,
-									hidden: false,
-									optional: false,
-									primary: true,
-									readOnly: true,
-									service: true
+					.to.eventually.be.deep.equal({
+						collections: {
+							User: {
+								fields: {
+									id: {
+										type: "INT",
+										autoIncrement: true,
+										hidden: false,
+										optional: false,
+										primary: true,
+										readOnly: true,
+										service: true,
+										multilang: false,
+										default: null,
+										length: null
+									},
+									email: {
+										type: 'STRING',
+										primary: false,
+										autoIncrement: false,
+										optional: false,
+										readOnly: false,
+										hidden: false,
+										service: false,
+										multilang: false,
+										default: null,
+										length: 255
+									},
+									password: {
+										type: 'STRING',
+										length: 50,
+										primary: false,
+										autoIncrement: false,
+										optional: false,
+										readOnly: false,
+										hidden: false,
+										service: false,
+										multilang: false,
+										default: null
+									},
+									birthdate: {
+										type: 'DATE',
+										primary: false,
+										autoIncrement: false,
+										optional: false,
+										readOnly: false,
+										hidden: false,
+										service: false,
+										multilang: false,
+										default: null,
+										length: null
+									},
+									active: {
+										type: 'BOOL',
+										primary: false,
+										autoIncrement: false,
+										optional: false,
+										readOnly: false,
+										hidden: false,
+										service: false,
+										multilang: false,
+										default: null,
+										length: null
+									},
+									firstName: {
+										type: 'STRING',
+										primary: false,
+										autoIncrement: false,
+										optional: false,
+										readOnly: false,
+										hidden: false,
+										service: false,
+										multilang: false,
+										default: null,
+										length: 255
+									},
+									lastName: {
+										type: 'STRING',
+										primary: false,
+										autoIncrement: false,
+										optional: false,
+										readOnly: false,
+										hidden: false,
+										service: false,
+										multilang: false,
+										default: null,
+										length: 255
+									},
+									bio: {
+										type: 'TEXT',
+										primary: false,
+										autoIncrement: false,
+										optional: true,
+										readOnly: false,
+										hidden: false,
+										service: false,
+										multilang: false,
+										default: null,
+										length: null
+									},
+									balance: {
+										type: 'DOUBLE',
+										primary: false,
+										autoIncrement: false,
+										optional: false,
+										readOnly: false,
+										hidden: false,
+										service: false,
+										multilang: false,
+										default: null,
+										length: null
+									},
+									createdAt: {
+										type: 'TIMESTAMP',
+										primary: false,
+										autoIncrement: false,
+										optional: false,
+										readOnly: true,
+										hidden: false,
+										service: true,
+										multilang: false,
+										default: null,
+										length: null
+									},
+									updatedAt: {
+										type: 'TIMESTAMP',
+										primary: false,
+										autoIncrement: false,
+										optional: false,
+										readOnly: true,
+										hidden: false,
+										service: true,
+										multilang: false,
+										length: null,
+										default: 'CURRENT_TIMESTAMP',
+										onUpdate: 'CURRENT_TIMESTAMP'
+									}
 								},
-								email: {
-									type: 'STRING',
-									primary: false,
-									autoIncrement: false,
-									optional: false,
-									readOnly: false,
-									hidden: false,
-									service: false
+								options: {
+									timestamps: true,
+									collectionName: 'User',
+									tableName: 'User',
+									createdAt: 'createdAt',
+									updatedAt: 'updatedAt'
 								},
-								password: {
-									type: 'STRING',
-									length: 50,
-									primary: false,
-									autoIncrement: false,
-									optional: false,
-									readOnly: false,
-									hidden: false,
-									service: false
-								},
-								birthdate: {
-									type: 'DATE',
-									primary: false,
-									autoIncrement: false,
-									optional: false,
-									readOnly: false,
-									hidden: false,
-									service: false
-								},
-								active: {
-									type: 'BOOL',
-									primary: false,
-									autoIncrement: false,
-									optional: false,
-									readOnly: false,
-									hidden: false,
-									service: false
-								},
-								firstName: {
-									type: 'STRING',
-									primary: false,
-									autoIncrement: false,
-									optional: false,
-									readOnly: false,
-									hidden: false,
-									service: false
-								},
-								lastName: {
-									type: 'STRING',
-									primary: false,
-									autoIncrement: false,
-									optional: false,
-									readOnly: false,
-									hidden: false,
-									service: false
-								},
-								bio: {
-									type: 'TEXT',
-									primary: false,
-									autoIncrement: false,
-									optional: true,
-									readOnly: false,
-									hidden: false,
-									service: false
-								},
-								balance: {
-									type: 'DOUBLE',
-									primary: false,
-									autoIncrement: false,
-									optional: false,
-									readOnly: false,
-									hidden: false,
-									service: false
-								},
-								createdAt: {
-									type: 'TIMESTAMP',
-									primary: false,
-									autoIncrement: false,
-									optional: false,
-									readOnly: true,
-									hidden: false,
-									service: true
-								},
-								updatedAt: {
-									type: 'TIMESTAMP',
-									primary: false,
-									autoIncrement: false,
-									optional: false,
-									readOnly: true,
-									hidden: false,
-									service: true,
-									default: 'CURRENT_TIMESTAMP',
-									onUpdate: 'CURRENT_TIMESTAMP'
-								}
-							},
-							options: {
-								timestamps: true,
-								collectionName: 'User'
-							},
-							primaryKey: 'id'
+								primaryKey: 'id'
+							}
 						}
-					}
-				});
+					});
 		});
 
 		it('should properly normalize collection type objects with references', function () {
@@ -329,7 +363,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						primary: true,
 						readOnly: true,
-						service: true
+						service: true,
+						multilang: false,
+						default: null,
+						length: null
 					},
 					type: {
 						type: "STRING",
@@ -338,7 +375,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						primary: false,
 						readOnly: false,
-						service: false
+						service: false,
+						multilang: false,
+						default: null,
+						length: 255
 					},
 					startDate: {
 						type: "DATE",
@@ -347,7 +387,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						primary: false,
 						readOnly: false,
-						service: false
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
 					},
 					endDate: {
 						type: "DATE",
@@ -356,7 +399,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						primary: false,
 						readOnly: false,
-						service: false
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
 					},
 					repeated: {
 						type: "BOOL",
@@ -365,7 +411,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						primary: false,
 						readOnly: false,
-						service: false
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
 					},
 					createdAt: {
 						type: 'TIMESTAMP',
@@ -374,7 +423,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						readOnly: true,
 						hidden: false,
-						service: true
+						service: true,
+						multilang: false,
+						default: null,
+						length: null
 					},
 					updatedAt: {
 						type: 'TIMESTAMP',
@@ -384,13 +436,18 @@ describe('yaml.reader', function () {
 						readOnly: true,
 						hidden: false,
 						service: true,
+						multilang: false,
+						length: null,
 						default: 'CURRENT_TIMESTAMP',
 						onUpdate: 'CURRENT_TIMESTAMP'
 					}
 				},
 				options: {
 					timestamps: true,
-					collectionName: 'Schedule'
+					collectionName: 'Schedule',
+					tableName: 'Schedule',
+					createdAt: 'createdAt',
+					updatedAt: 'updatedAt'
 				},
 				primaryKey: 'id'
 			};
@@ -404,7 +461,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						primary: true,
 						readOnly: true,
-						service: true
+						service: true,
+						multilang: false,
+						default: null,
+						length: null
 					},
 					email: {
 						type: 'STRING',
@@ -413,7 +473,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						readOnly: false,
 						hidden: false,
-						service: false
+						service: false,
+						multilang: false,
+						default: null,
+						length: 255
 					},
 					password: {
 						type: 'STRING',
@@ -423,7 +486,9 @@ describe('yaml.reader', function () {
 						optional: false,
 						readOnly: false,
 						hidden: false,
-						service: false
+						service: false,
+						multilang: false,
+						default: null
 					},
 					birthdate: {
 						type: 'DATE',
@@ -432,7 +497,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						readOnly: false,
 						hidden: false,
-						service: false
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
 					},
 					active: {
 						type: 'BOOL',
@@ -441,7 +509,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						readOnly: false,
 						hidden: false,
-						service: false
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
 					},
 					firstName: {
 						type: 'STRING',
@@ -450,7 +521,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						readOnly: false,
 						hidden: false,
-						service: false
+						service: false,
+						multilang: false,
+						default: null,
+						length: 255
 					},
 					lastName: {
 						type: 'STRING',
@@ -459,7 +533,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						readOnly: false,
 						hidden: false,
-						service: false
+						service: false,
+						multilang: false,
+						default: null,
+						length: 255
 					},
 					bio: {
 						type: 'TEXT',
@@ -468,7 +545,10 @@ describe('yaml.reader', function () {
 						optional: true,
 						readOnly: false,
 						hidden: false,
-						service: false
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
 					},
 					balance: {
 						type: 'DOUBLE',
@@ -477,7 +557,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						readOnly: false,
 						hidden: false,
-						service: false
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
 					},
 					schedule: {
 						type: 'INT',
@@ -487,6 +570,9 @@ describe('yaml.reader', function () {
 						readOnly: false,
 						hidden: false,
 						service: false,
+						multilang: false,
+						default: null,
+						length: null,
 						reference: {
 							collection: 'Schedule',
 							field: 'id'
@@ -499,7 +585,10 @@ describe('yaml.reader', function () {
 						optional: false,
 						readOnly: true,
 						hidden: false,
-						service: true
+						service: true,
+						multilang: false,
+						default: null,
+						length: null
 					},
 					updatedAt: {
 						type: 'TIMESTAMP',
@@ -509,171 +598,278 @@ describe('yaml.reader', function () {
 						readOnly: true,
 						hidden: false,
 						service: true,
+						multilang: false,
+						length: null,
 						default: 'CURRENT_TIMESTAMP',
 						onUpdate: 'CURRENT_TIMESTAMP'
 					}
 				},
 				options: {
 					timestamps: true,
-					collectionName: 'User'
+					collectionName: 'User',
+					tableName: 'User',
+					createdAt: 'createdAt',
+					updatedAt: 'updatedAt'
 				},
 				primaryKey: 'id',
 				dependencies: [ Schedule ]
 			};
 
 			return expect(r.readFile(p).then(r.filterDoc).then(r.normalizeDoc))
-				.to.eventually.be.deep.equal({
-					collections: {
-						User: User,
-						Schedule: Schedule
-					}
-				});
+					.to.eventually.be.deep.equal({
+						collections: {
+							User: User,
+							Schedule: Schedule
+						}
+					});
 		});
 
 		it('should properly normalize connection type objects', function () {
 			var p = path.join(__dirname, 'schemas/schema-relations-many.yml');
 			var r = reader.instance();
 
-			var User = { fields: { email: { type: 'STRING',
-				primary: false,
-				autoIncrement: false,
-				optional: false,
-				readOnly: false,
-				hidden: false,
-				service: false },
-				password: { type: 'STRING',
-					length: 50,
-					primary: false,
-					autoIncrement: false,
-					optional: false,
-					readOnly: false,
-					hidden: false,
-					service: false },
-				birthdate: { type: 'DATE',
-					primary: false,
-					autoIncrement: false,
-					optional: false,
-					readOnly: false,
-					hidden: false,
-					service: false },
-				active: { type: 'BOOL',
-					primary: false,
-					autoIncrement: false,
-					optional: false,
-					readOnly: false,
-					hidden: false,
-					service: false },
-				firstName: { type: 'STRING',
-					primary: false,
-					autoIncrement: false,
-					optional: false,
-					readOnly: false,
-					hidden: false,
-					service: false },
-				lastName: { type: 'STRING',
-					primary: false,
-					autoIncrement: false,
-					optional: false,
-					readOnly: false,
-					hidden: false,
-					service: false },
-				bio: { type: 'TEXT',
-					optional: true,
-					primary: false,
-					autoIncrement: false,
-					readOnly: false,
-					hidden: false,
-					service: false },
-				balance: { type: 'DOUBLE',
-					primary: false,
-					autoIncrement: false,
-					optional: false,
-					readOnly: false,
-					hidden: false,
-					service: false },
-				id: { type: 'INT',
-					primary: true,
-					autoIncrement: true,
-					optional: false,
-					readOnly: true,
-					hidden: false,
-					service: true },
-				createdAt: { type: 'TIMESTAMP',
-					primary: false,
-					autoIncrement: false,
-					optional: false,
-					readOnly: true,
-					hidden: false,
-					service: true },
-				updatedAt: { type: 'TIMESTAMP',
-					primary: false,
-					autoIncrement: false,
-					optional: false,
-					readOnly: true,
-					hidden: false,
-					service: true,
-					default: 'CURRENT_TIMESTAMP',
-					onUpdate: 'CURRENT_TIMESTAMP' } },
-				options: { timestamps: true, collectionName: 'User' },
-				primaryKey: 'id' };
+			var User = {
+				fields: {
+					email: {
+						type: 'STRING',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: false,
+						hidden: false,
+						service: false,
+						multilang: false,
+						default: null,
+						length: 255
+					},
+					password: {
+						type: 'STRING',
+						length: 50,
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: false,
+						hidden: false,
+						service: false,
+						multilang: false,
+						default: null
+					},
+					birthdate: {
+						type: 'DATE',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: false,
+						hidden: false,
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
+					},
+					active: {
+						type: 'BOOL',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: false,
+						hidden: false,
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
+					},
+					firstName: {
+						type: 'STRING',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: false,
+						hidden: false,
+						service: false,
+						multilang: false,
+						default: null,
+						length: 255
+					},
+					lastName: {
+						type: 'STRING',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: false,
+						hidden: false,
+						service: false,
+						multilang: false,
+						default: null,
+						length: 255
+					},
+					bio: {
+						type: 'TEXT',
+						optional: true,
+						primary: false,
+						autoIncrement: false,
+						readOnly: false,
+						hidden: false,
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
+					},
+					balance: {
+						type: 'DOUBLE',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: false,
+						hidden: false,
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
+					},
+					id: {
+						type: 'INT',
+						primary: true,
+						autoIncrement: true,
+						optional: false,
+						readOnly: true,
+						hidden: false,
+						service: true,
+						multilang: false,
+						default: null,
+						length: null
+					},
+					createdAt: {
+						type: 'TIMESTAMP',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: true,
+						hidden: false,
+						service: true,
+						multilang: false,
+						default: null,
+						length: null
+					},
+					updatedAt: {
+						type: 'TIMESTAMP',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: true,
+						hidden: false,
+						service: true,
+						multilang: false,
+						length: null,
+						default: 'CURRENT_TIMESTAMP',
+						onUpdate: 'CURRENT_TIMESTAMP'
+					}
+				},
+				options: {
+					timestamps: true,
+					collectionName: 'User',
+					tableName: 'User',
+					createdAt: 'createdAt',
+					updatedAt: 'updatedAt'
+				},
+				primaryKey: 'id'
+			};
 
-			var Project = { fields: { name: { type: 'STRING',
-				primary: false,
-				autoIncrement: false,
-				optional: false,
-				readOnly: false,
-				hidden: false,
-				service: false },
-				importance: { type: 'INT',
-					primary: false,
-					autoIncrement: false,
-					optional: false,
-					readOnly: false,
-					hidden: false,
-					service: false },
-				complete: { type: 'DOUBLE',
-					primary: false,
-					autoIncrement: false,
-					optional: false,
-					readOnly: false,
-					hidden: false,
-					service: false },
-				id: { type: 'INT',
-					primary: true,
-					autoIncrement: true,
-					optional: false,
-					readOnly: true,
-					hidden: false,
-					service: true },
-				createdAt: { type: 'TIMESTAMP',
-					primary: false,
-					autoIncrement: false,
-					optional: false,
-					readOnly: true,
-					hidden: false,
-					service: true },
-				updatedAt: { type: 'TIMESTAMP',
-					primary: false,
-					autoIncrement: false,
-					optional: false,
-					readOnly: true,
-					hidden: false,
-					service: true,
-					default: 'CURRENT_TIMESTAMP',
-					onUpdate: 'CURRENT_TIMESTAMP' } },
-				options: { timestamps: true, collectionName: 'Project' },
-				primaryKey: 'id'};
+			var Project = {
+				fields: {
+					name: {
+						type: 'STRING',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: false,
+						hidden: false,
+						service: false,
+						default: null,
+						multilang: false,
+						length: 255
+					},
+					importance: {
+						type: 'INT',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: false,
+						hidden: false,
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
+					},
+					complete: {
+						type: 'DOUBLE',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: false,
+						hidden: false,
+						service: false,
+						multilang: false,
+						default: null,
+						length: null
+					},
+					id: {
+						type: 'INT',
+						primary: true,
+						autoIncrement: true,
+						optional: false,
+						readOnly: true,
+						hidden: false,
+						service: true,
+						multilang: false,
+						default: null,
+						length: null
+					},
+					createdAt: {
+						type: 'TIMESTAMP',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: true,
+						hidden: false,
+						service: true,
+						multilang: false,
+						default: null,
+						length: null
+					},
+					updatedAt: {
+						type: 'TIMESTAMP',
+						primary: false,
+						autoIncrement: false,
+						optional: false,
+						readOnly: true,
+						hidden: false,
+						service: true,
+						multilang: false,
+						length: null,
+						default: 'CURRENT_TIMESTAMP',
+						onUpdate: 'CURRENT_TIMESTAMP'
+					}
+				},
+				options: {
+					timestamps: true,
+					collectionName: 'Project',
+					tableName: 'Project',
+					createdAt: 'createdAt',
+					updatedAt: 'updatedAt'
+				},
+				primaryKey: 'id'
+			};
 
 			return expect(r.readFile(p).then(r.filterDoc).then(function (doc) {
 				return r.normalizeDoc(doc).connections;
 			})).to.eventually.be.deep.equal({
-					UserProject: {
-						manyToMany: true,
-						from: User,
-						to: Project,
-						tableName: 'user_project'
-					}
-				});
+						UserProject: {
+							parent: User,
+							child: Project,
+							accessor: 'projects',
+							tableName: 'link_user_projects'
+						}
+					});
 		});
 	});
 });
