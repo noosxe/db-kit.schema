@@ -26,7 +26,7 @@ Each YAML file can contain multiple collection definitions.
 
 Here `User` is the name of the collection and a table with the same name will be created to store collection items. If you need to use other name for the table, please specify `tableName` option inside `options` block.
 
-** Fields **
+### Fields
 
 Collection fields are specified in special `fields` block.
 Each field is a key-value pair where key is the name of the field and value is the description of the field.
@@ -62,7 +62,7 @@ Field definition can have following options
 | default       | type dependent  | N/A            | default value for the field
 
 
-** Data types **
+### Data types
 
 Listing of available data types and respective MySQL counterparts.
 
@@ -76,7 +76,7 @@ Listing of available data types and respective MySQL counterparts.
 | date      | DATE       | N/A
 | timestamp | TIMESTAMP  | N/A
 
-** Options **
+### Options
 
 Options block allows configuration of collection. Possible options are presented in the table below.
 
@@ -90,7 +90,7 @@ Options block allows configuration of collection. Possible options are presented
 Relations
 ---------
 
-** Many to one **
+### Many to one
 
 To define a collection field that points to an object from other collection you simply need to use that collection's name prefixed for dollar sign `($OtherCollection)`
 
@@ -112,7 +112,7 @@ Employee:
 
 This allows to link an employee to any single schedule.
 
-** Many to many **
+### Many to many
 
 If you need to link a single object to multiple objects from the same or other collection you need to use `connection` definition.
 
