@@ -86,6 +86,7 @@ Options block allows configuration of collection. Possible options are presented
 | timestamps  | true/false      | false           | weather to track create and update time
 | createdAt   | field name      | createdAt       | createdAt field name
 | updatedAt   | field name      | updatedAt       | updatedAt field name
+| isTree      | true/false      | false           | enable support for encoded tree structures
 
 Relations
 ---------

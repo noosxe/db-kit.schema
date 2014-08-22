@@ -342,7 +342,8 @@ describe('yaml.reader', function () {
 									collectionName: 'User',
 									tableName: 'User',
 									createdAt: 'createdAt',
-									updatedAt: 'updatedAt'
+									updatedAt: 'updatedAt',
+									isTree: false
 								},
 								primaryKey: 'id'
 							}
@@ -447,7 +448,8 @@ describe('yaml.reader', function () {
 					collectionName: 'Schedule',
 					tableName: 'Schedule',
 					createdAt: 'createdAt',
-					updatedAt: 'updatedAt'
+					updatedAt: 'updatedAt',
+					isTree: false
 				},
 				primaryKey: 'id'
 			};
@@ -609,7 +611,8 @@ describe('yaml.reader', function () {
 					collectionName: 'User',
 					tableName: 'User',
 					createdAt: 'createdAt',
-					updatedAt: 'updatedAt'
+					updatedAt: 'updatedAt',
+					isTree: false
 				},
 				primaryKey: 'id',
 				dependencies: [ Schedule ]
@@ -769,7 +772,8 @@ describe('yaml.reader', function () {
 					collectionName: 'User',
 					tableName: 'User',
 					createdAt: 'createdAt',
-					updatedAt: 'updatedAt'
+					updatedAt: 'updatedAt',
+					isTree: false
 				},
 				primaryKey: 'id'
 			};
@@ -855,7 +859,8 @@ describe('yaml.reader', function () {
 					collectionName: 'Project',
 					tableName: 'Project',
 					createdAt: 'createdAt',
-					updatedAt: 'updatedAt'
+					updatedAt: 'updatedAt',
+					isTree: false
 				},
 				primaryKey: 'id'
 			};
