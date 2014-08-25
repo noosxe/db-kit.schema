@@ -309,7 +309,8 @@ describe('yaml.reader', function () {
 										service: true,
 										multilang: false,
 										default: undefined,
-										length: undefined
+										length: undefined,
+										null: true
 									},
 									updatedAt: {
 										type: 'TIMESTAMP',
@@ -415,7 +416,8 @@ describe('yaml.reader', function () {
 						service: true,
 						multilang: false,
 						default: undefined,
-						length: undefined
+						length: undefined,
+						null: true
 					},
 					updatedAt: {
 						type: 'TIMESTAMP',
@@ -578,7 +580,8 @@ describe('yaml.reader', function () {
 						service: true,
 						multilang: false,
 						default: undefined,
-						length: undefined
+						length: undefined,
+						null: true
 					},
 					updatedAt: {
 						type: 'TIMESTAMP',
@@ -739,7 +742,8 @@ describe('yaml.reader', function () {
 						service: true,
 						multilang: false,
 						default: undefined,
-						length: undefined
+						length: undefined,
+						null: true
 					},
 					updatedAt: {
 						type: 'TIMESTAMP',
@@ -826,7 +830,8 @@ describe('yaml.reader', function () {
 						service: true,
 						multilang: false,
 						default: undefined,
-						length: undefined
+						length: undefined,
+						null: true
 					},
 					updatedAt: {
 						type: 'TIMESTAMP',
