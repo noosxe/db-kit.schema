@@ -1,6 +1,6 @@
 {
 	"name": "db-kit.schema",
-	"version": "0.1.6",
+	"version": "0.1.7",
 	"description": "db-kit ORM schema generator",
 	"main": "index.js",
 	"dependencies": {
