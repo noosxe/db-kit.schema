@@ -212,8 +212,8 @@ describe('yaml.reader', function () {
 										readOnly: true,
 										service: true,
 										multilang: false,
-										default: null,
-										length: null
+										default: undefined,
+										length: undefined
 									},
 									email: {
 										type: 'STRING',
@@ -224,7 +224,7 @@ describe('yaml.reader', function () {
 										hidden: false,
 										service: false,
 										multilang: false,
-										default: null,
+										default: undefined,
 										length: 255
 									},
 									password: {
@@ -237,7 +237,7 @@ describe('yaml.reader', function () {
 										hidden: false,
 										service: false,
 										multilang: false,
-										default: null
+										default: undefined
 									},
 									birthdate: {
 										type: 'DATE',
@@ -248,8 +248,8 @@ describe('yaml.reader', function () {
 										hidden: false,
 										service: false,
 										multilang: false,
-										default: null,
-										length: null
+										default: undefined,
+										length: undefined
 									},
 									active: {
 										type: 'BOOL',
@@ -260,8 +260,8 @@ describe('yaml.reader', function () {
 										hidden: false,
 										service: false,
 										multilang: false,
-										default: null,
-										length: null
+										default: undefined,
+										length: undefined
 									},
 									firstName: {
 										type: 'STRING',
@@ -272,7 +272,7 @@ describe('yaml.reader', function () {
 										hidden: false,
 										service: false,
 										multilang: false,
-										default: null,
+										default: undefined,
 										length: 255
 									},
 									lastName: {
@@ -284,7 +284,7 @@ describe('yaml.reader', function () {
 										hidden: false,
 										service: false,
 										multilang: false,
-										default: null,
+										default: undefined,
 										length: 255
 									},
 									bio: {
@@ -296,8 +296,8 @@ describe('yaml.reader', function () {
 										hidden: false,
 										service: false,
 										multilang: false,
-										default: null,
-										length: null
+										default: undefined,
+										length: undefined
 									},
 									balance: {
 										type: 'DOUBLE',
@@ -308,8 +308,8 @@ describe('yaml.reader', function () {
 										hidden: false,
 										service: false,
 										multilang: false,
-										default: null,
-										length: null
+										default: undefined,
+										length: undefined
 									},
 									createdAt: {
 										type: 'TIMESTAMP',
@@ -320,8 +320,8 @@ describe('yaml.reader', function () {
 										hidden: false,
 										service: true,
 										multilang: false,
-										default: null,
-										length: null
+										default: undefined,
+										length: undefined
 									},
 									updatedAt: {
 										type: 'TIMESTAMP',
@@ -332,7 +332,7 @@ describe('yaml.reader', function () {
 										hidden: false,
 										service: true,
 										multilang: false,
-										length: null,
+										length: undefined,
 										default: 'CURRENT_TIMESTAMP',
 										onUpdate: 'CURRENT_TIMESTAMP'
 									}
@@ -366,8 +366,8 @@ describe('yaml.reader', function () {
 						readOnly: true,
 						service: true,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					type: {
 						type: "STRING",
@@ -378,7 +378,7 @@ describe('yaml.reader', function () {
 						readOnly: false,
 						service: false,
 						multilang: false,
-						default: null,
+						default: undefined,
 						length: 255
 					},
 					startDate: {
@@ -390,8 +390,8 @@ describe('yaml.reader', function () {
 						readOnly: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					endDate: {
 						type: "DATE",
@@ -402,8 +402,8 @@ describe('yaml.reader', function () {
 						readOnly: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					repeated: {
 						type: "BOOL",
@@ -414,8 +414,8 @@ describe('yaml.reader', function () {
 						readOnly: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					createdAt: {
 						type: 'TIMESTAMP',
@@ -426,8 +426,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: true,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					updatedAt: {
 						type: 'TIMESTAMP',
@@ -438,7 +438,7 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: true,
 						multilang: false,
-						length: null,
+						length: undefined,
 						default: 'CURRENT_TIMESTAMP',
 						onUpdate: 'CURRENT_TIMESTAMP'
 					}
@@ -465,8 +465,8 @@ describe('yaml.reader', function () {
 						readOnly: true,
 						service: true,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					email: {
 						type: 'STRING',
@@ -477,7 +477,7 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
+						default: undefined,
 						length: 255
 					},
 					password: {
@@ -490,7 +490,7 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null
+						default: undefined
 					},
 					birthdate: {
 						type: 'DATE',
@@ -501,8 +501,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					active: {
 						type: 'BOOL',
@@ -513,8 +513,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					firstName: {
 						type: 'STRING',
@@ -525,7 +525,7 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
+						default: undefined,
 						length: 255
 					},
 					lastName: {
@@ -537,7 +537,7 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
+						default: undefined,
 						length: 255
 					},
 					bio: {
@@ -549,8 +549,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					balance: {
 						type: 'DOUBLE',
@@ -561,8 +561,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					schedule: {
 						type: 'INT',
@@ -573,8 +573,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null,
+						default: undefined,
+						length: undefined,
 						reference: {
 							collection: 'Schedule',
 							field: 'id'
@@ -589,8 +589,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: true,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					updatedAt: {
 						type: 'TIMESTAMP',
@@ -601,7 +601,7 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: true,
 						multilang: false,
-						length: null,
+						length: undefined,
 						default: 'CURRENT_TIMESTAMP',
 						onUpdate: 'CURRENT_TIMESTAMP'
 					}
@@ -642,7 +642,7 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
+						default: undefined,
 						length: 255
 					},
 					password: {
@@ -655,7 +655,7 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null
+						default: undefined
 					},
 					birthdate: {
 						type: 'DATE',
@@ -666,8 +666,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					active: {
 						type: 'BOOL',
@@ -678,8 +678,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					firstName: {
 						type: 'STRING',
@@ -690,7 +690,7 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
+						default: undefined,
 						length: 255
 					},
 					lastName: {
@@ -702,7 +702,7 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
+						default: undefined,
 						length: 255
 					},
 					bio: {
@@ -714,8 +714,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					balance: {
 						type: 'DOUBLE',
@@ -726,8 +726,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					id: {
 						type: 'INT',
@@ -738,8 +738,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: true,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					createdAt: {
 						type: 'TIMESTAMP',
@@ -750,8 +750,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: true,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					updatedAt: {
 						type: 'TIMESTAMP',
@@ -762,7 +762,7 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: true,
 						multilang: false,
-						length: null,
+						length: undefined,
 						default: 'CURRENT_TIMESTAMP',
 						onUpdate: 'CURRENT_TIMESTAMP'
 					}
@@ -788,7 +788,7 @@ describe('yaml.reader', function () {
 						readOnly: false,
 						hidden: false,
 						service: false,
-						default: null,
+						default: undefined,
 						multilang: false,
 						length: 255
 					},
@@ -801,8 +801,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					complete: {
 						type: 'DOUBLE',
@@ -813,8 +813,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: false,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					id: {
 						type: 'INT',
@@ -825,8 +825,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: true,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					createdAt: {
 						type: 'TIMESTAMP',
@@ -837,8 +837,8 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: true,
 						multilang: false,
-						default: null,
-						length: null
+						default: undefined,
+						length: undefined
 					},
 					updatedAt: {
 						type: 'TIMESTAMP',
@@ -849,7 +849,7 @@ describe('yaml.reader', function () {
 						hidden: false,
 						service: true,
 						multilang: false,
-						length: null,
+						length: undefined,
 						default: 'CURRENT_TIMESTAMP',
 						onUpdate: 'CURRENT_TIMESTAMP'
 					}
