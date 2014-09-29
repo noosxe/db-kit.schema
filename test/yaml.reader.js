@@ -606,7 +606,7 @@ describe('yaml.reader', function () {
 					isTree: false
 				},
 				primaryKey: 'id',
-				dependencies: [ Schedule ]
+				dependencies: [ 'Schedule' ]
 			};
 
 			return expect(r.readFile(p).then(r.filterDoc).then(r.normalizeDoc))
